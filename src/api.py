@@ -7,18 +7,22 @@ import data_pipeline as data_pipeline
 import preprocessing as preprocessing
 
 config_data = util.load_config()
-ohe_stasiun = util.pickle_load(config_data["ohe_stasiun_path"])
+ohe_ContractRenewal = util.pickle_load(config_data["ohe_ContractRenewal_path"])
+#ohe_DataPlan = util.pickle_load(config_data["ohe_DataPlan_path"])
 le_encoder = util.pickle_load(config_data["le_encoder_path"])
 model_data = util.pickle_load(config_data["production_model_path"])
 
 class api_data(BaseModel):
-    stasiun : str
-    pm10 : int
-    pm25 : int
-    so2 : int
-    co : int
-    o3 : int
-    no2 : int
+    AccountWeeks : int   
+    ContractRenewal : str
+    DataPlan : int
+    DataUsage : float
+    CustServCalls : int
+    DayMins : float
+    DayCalls : int
+    MonthlyCharge : float
+    OverageFee : float
+    RoamMins : float
 
 app = FastAPI()
 
@@ -46,8 +50,12 @@ def predict(data: api_data):
     except AssertionError as ae:
         return {"res": [], "error_msg": str(ae)}
     
-    # Encoding stasiun
-    data = preprocessing.ohe_transform(data, "stasiun", ohe_stasiun)
+    # Encoding ContractRenewal
+    data = preprocessing.ohe_transform_ContractRenewal(data, ["ContractRenewal"], ohe_ContractRenewal)
+    
+    #Cek lagi
+    # Encoding DataPlan
+    #data = preprocessing.ohe_transform_DataPlan(data, "DataPlan", ohe_DataPlan)
 
     # Predict data
     y_pred = model_data["model_data"]["model_object"].predict(data)

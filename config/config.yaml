@@ -1,0 +1,124 @@
+raw_dataset_dir: 'C:/Users/Axel/Desktop/Data Science/Telecom Prediction/data/raw/'
+raw_dataset_path: 'C:/Users/Axel/Desktop/Data Science/Telecom Prediction/data/processed/raw_dataset.pkl'
+cleaned_raw_dataset_path: 'C:/Users/Axel/Desktop/Data Science/Telecom Prediction/data/processed/raw_dataset.pkl'
+train_set_path: 
+- 'C:/Users/Axel/Desktop/Data Science/Telecom Prediction/data/processed/x_train.pkl'
+- 'C:/Users/Axel/Desktop/Data Science/Telecom Prediction/data/processed/y_train.pkl'
+valid_set_path:
+- 'C:/Users/Axel/Desktop/Data Science/Telecom Prediction/data/processed/x_valid.pkl'
+- 'C:/Users/Axel/Desktop/Data Science/Telecom Prediction/data/processed/y_valid.pkl'
+test_set_path:
+- 'C:/Users/Axel/Desktop/Data Science/Telecom Prediction/data/processed/x_test.pkl'
+- 'C:/Users/Axel/Desktop/Data Science/Telecom Prediction/data/processed/y_test.pkl'
+train_feng_set_path:
+- 'C:/Users/Axel/Desktop/Data Science/Telecom Prediction/data/processed/x_train_feng.pkl'
+- 'C:/Users/Axel/Desktop/Data Science/Telecom Prediction/data/processed/y_train_feng.pkl'
+valid_feng_set_path:
+- 'C:/Users/Axel/Desktop/Data Science/Telecom Prediction/data/processed/x_valid_feng.pkl'
+- 'C:/Users/Axel/Desktop/Data Science/Telecom Prediction/data/processed/y_valid_feng.pkl'
+test_feng_set_path:
+- 'C:/Users/Axel/Desktop/Data Science/Telecom Prediction/data/processed/x_test_feng.pkl'
+- 'C:/Users/Axel/Desktop/Data Science/Telecom Prediction/data/processed/y_test_feng.pkl'
+ohe_ContractRenewal_path: 'C:/Users/Axel/Desktop/Data Science/Telecom Prediction/models/ohe_ContractRenewal.pkl'
+ohe_DataPlan_path: 'C:/Users/Axel/Desktop/Data Science/Telecom Prediction/models/ohe_DataPlan.pkl'
+production_model_path: 'C:/Users/Axel/Desktop/Data Science/Telecom Prediction/models/production_model.pkl'
+le_encoder_path: 'C:/Users/Axel/Desktop/Data Science/Telecom Prediction/models/le_encoder.pkl'
+training_log_path: 'C:/Users/Axel/Desktop/Data Science/Telecom Prediction/log/training_log.json'
+float64_columns:
+- DataUsage
+- DayMins
+- MonthlyCharge
+- OverageFee
+- RoamMins
+int32_columns:
+- ID
+- AccountWeeks
+- DataPlan
+- CustServCalls
+- DayCalls
+object_columns:
+- ContractRenewal
+- Churn
+label: Churn
+label_categories:
+- Ya
+- Tidak
+- Tidak Tahu
+label_categories_new:
+- Ya
+- Tidak
+label_categories_ContractRenewal:
+- Renew
+- NotRenew
+missing_value_AccountWeeks:
+  Tidak: 101
+  Ya: 103
+missing_value_CustServCalls: 1
+missing_value_DataUsage:
+  Tidak: 0.8882406471183009
+  Ya: 0.5436498516320476
+missing_value_DayCalls: 101
+missing_value_DayMins: 179.63004735256132
+missing_value_MonthlyCharge: 53
+missing_value_OverageFee: 10.12
+missing_value_RoamMins: 10.12
+missing_value_co: 11
+missing_value_no2: 18
+missing_value_o3: 29
+missing_value_so2: 35
+object_columns:
+- ContractRenewal
+- Churn
+predictors:
+- ContractRenewal
+- ID
+- AccountWeeks
+- DataPlan
+- DataUsage
+- CustServCalls
+- DayMins
+- DayCalls
+- MonthlyCharge
+- OverageFee
+- RoamMins
+range_AccountWeeks:
+- -1
+- 243
+range_Churn:
+- Tidak
+- Tidak Tahu
+- Ya
+range_ContractRenewal:
+- NotRenew
+- Renew
+range_CustServCalls:
+- -1
+- 9
+range_DataPlan:
+- 0
+- 1
+range_DataUsage:
+- -1
+- 5.4
+range_DayCalls:
+- -1
+- 165
+range_DayMins:
+- -1
+- 350.8
+range_ID:
+- 0
+- 3333
+range_MonthlyCharge:
+- -1
+- 111.3
+range_OverageFee:
+- 0
+- 18.19
+range_RoamMins:
+- -1
+- 20
+
+# Debug related
+print_debug: true
+

@@ -3,85 +3,93 @@ import requests
 from PIL import Image
 
 # Load and set images in the first place
-header_images = Image.open('assets/header_images.jpg')
+header_images = Image.open('C:/Users/Axel/Desktop/Data Science/Telecom Prediction/assets/header_images.jpg')
 st.image(header_images)
 
 # Add some information about the service
 st.title("Prediksi Customer Churn pada Perusahaan Telecom")
-st.subheader("Just enter variabel below then click Predict button :sunglasses:")
+st.subheader("Isikan variable dibawah dah klik 'Predict':")
 
 # Create form of input
-with st.form(key = "air_data_form"):
+with st.form(key = "telecom_data_form"):
     # Create select box input
     ContractRenewal = st.selectbox(
-        label = "1.\tApakah customer melakukan perpanjangan kontrak masa berlaku?",
+        label = "1.Apakah customer melakukan perpanjangan kontrak masa berlaku?",
         options = (
-            "Ya",
-            "Tidak",
+            "Renewal",
+            "NotRenewal",
         )
     )
 
     # Create select box input
-    DataPlan = st.selectbox(
-        label = "1.\tApakah customer menggunakan Data Plan untuk berkomunikasi?",
-        options = (
-            "Ya",
-            "Tidak",
-        )
+    #DataPlan = st.selectbox(
+    #    label = "2.Apakah customer menggunakan Data Plan untuk berkomunikasi?",
+    #    options = (
+    #        "Use",
+    #        "NotUse",
+    #    )
+    #)
+
+    # Create box for number input
+    DataPlan = st.number_input(
+        label = "2.Apakah customer menggunakan Data Plan untuk berkomunikasi? (Ya : 1 | Tidak : 0):",
+        min_value = 0,
+        max_value = 1,
+        help = "Rentang nilai Ya : 1 | Tidak : 0"
     )
 
     # Create box for number input
     AccountWeeks = st.number_input(
-        label = "2.\tTotal berapa minggu akun customer telah aktif?:",
+        label = "3.Total berapa minggu akun customer telah aktif?:",
         min_value = 0,
         max_value = 250,
         help = "Rentang nilai dari 0 hingga 250 minggu"
     )
     
     DataUsage = st.number_input(
-        label = "3.\tBerapa total data usage perbulan yang digunakan customer (GB)?:",
+        label = "4.Berapa total data usage perbulan yang digunakan customer (GB)?:",
         min_value = 0,
         max_value = 10,
         help = "Rentang nilai dari 0 hingga 10 GB"
     )
 
     CustServCalls = st.number_input(
-        label = "4.\tBerapa total panggilan kepada customer service yang dilakukan?:",
+        label = "5.Berapa total panggilan kepada customer service yang dilakukan?:",
         min_value = 0,
         max_value = 10,
         help = "Rentang nilai dari 0 hingga 10 kali"
     )
 
     DayMins = st.number_input(
-        label = "5.\tBerapa menit rata-rata total penggunaan servis tiap bulan?:",
+        label = "6.Berapa menit rata-rata total penggunaan servis tiap bulan?:",
         min_value = 0,
         max_value = 375,
         help = "Rentang nilai dari 0 hingga 375 menit"
     )
 
     DayCalls = st.number_input(
-        label = "6.\tBerapa jumlah rata-rata panggilan dalam sebulan:?",
+        label = "7.Berapa jumlah rata-rata panggilan dalam sebulan:?",
         min_value = 0,
         max_value = 200,
         help = "Rentang nilai dari 0 hingga 200 menit"
     )
 
     MonthlyCharge = st.number_input(
-        label = "7.\tBerapa rata-rata jumlah tagihan bulanan?:",
+        label = "8.Berapa rata-rata jumlah tagihan bulanan?:",
         min_value = 0,
         max_value = 150,
         help = "Rentang nilai dari 0 hingga 200 dollar"
     )
 
     OverageFee = st.number_input(
-        label = "7.\tBerapa nilai tagihan terbesar dalam 12 bulan?:",
+        label = "9.Berapa nilai tagihan terbesar dalam 12 bulan?:",
         min_value = 0,
         max_value = 150,
         help = "Rentang nilai dari 0 hingga 20 dollar"
     )
     
     RoamMins = st.number_input(
-        label = "7.\tBerapa rata-rata waktu roaming?:",
+        label = "10.Berapa rata-rata waktu roaming?:",
         min_value = 0,
         max_value = 25,
         help = "Rentang nilai dari 0 hingga 25 dollar"
@@ -108,13 +116,14 @@ with st.form(key = "air_data_form"):
 
         # Create loading animation while predicting
         with st.spinner("Sending data to prediction server ..."):
-            res = requests.post("http://api:8080/predict", json = raw_data).json()
+            res = requests.post("http://localhost:8080/predict/", json = raw_data).json()
+        st.write(res)
 
         # Parse the prediction result
-        if res["error_msg"] != "":
-            st.error("Error Occurs While Predicting: {}".format(res["error_msg"]))
-        else:
-            if res["res"] != "Ya":
-                st.warning("Prediksi Churn Customer: Tidak.")
-            else:
-                st.success("Prediksi Churn Customer: Ya.")
+        #if res["error_msg"] != "":
+        #    st.error("Error Occurs While Predicting: {}".format(res["error_msg"]))
+        #else:
+        #    if res["res"] != "Ya":
+        #        st.warning("Prediksi Churn Customer: Tidak.")
+        #    else:
+        #        st.success("Prediksi Churn Customer: Ya.")

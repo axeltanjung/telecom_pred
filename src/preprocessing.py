@@ -40,14 +40,14 @@ def join_label_categori(set_data, config_data):
         # Create copy of set data
         set_data = set_data.copy()
 
-        # Rename sedang to tidak sehat
-        set_data.categori.replace(
+        # Rename Tidak Tahu to Tidak
+        set_data.Churn.replace(
             config_data["label_categories"][1],
             config_data["label_categories"][2], inplace = True
         )
 
         # Rename tidak tahu to tidak
-        set_data.categori.replace(
+        set_data.Churn.replace(
             config_data["label_categories"][2],
             config_data["label_categories_new"][1], inplace = True
         )
@@ -71,7 +71,7 @@ def nan_detector(set_data: pd.DataFrame) -> pd.DataFrame:
     return set_data
 
 
-def ohe_fit(data_tobe_fitted: dict, ohe_path: str) -> OneHotEncoder:
+def ohe_fit_ContractRenewal(data_tobe_fitted: dict, ohe_path: str) -> OneHotEncoder:
     # Create ohe object
     ohe_ContractRenewal = OneHotEncoder(sparse = False)
 
@@ -87,11 +87,27 @@ def ohe_fit(data_tobe_fitted: dict, ohe_path: str) -> OneHotEncoder:
     # Return trained ohe
     return ohe_ContractRenewal
 
-def ohe_transform(set_data: pd.DataFrame, tranformed_column: str, ohe_ContractRenewal: OneHotEncoder) -> pd.DataFrame:
+#def ohe_fit_DataPlan(data_tobe_fitted: dict, ohe_path: str) -> OneHotEncoder:
+    # Create ohe object
+    #ohe_DataPlan = OneHotEncoder(sparse = False)
+
+    # Fit ohe
+    #ohe_DataPlan.fit(np.array(data_tobe_fitted).reshape(-1, 1))
+
+    # Save ohe object
+    #util.pickle_dump(
+    #    ohe_DataPlan,
+    #   ohe_path
+    #)
+
+    # Return trained ohe
+    #return ohe_DataPlan
+
+def ohe_transform_ContractRenewal(set_data: pd.DataFrame, tranformed_column: str, ohe_ContractRenewal: OneHotEncoder) -> pd.DataFrame:
     # Create copy of set data
     set_data = set_data.copy()
 
-    # Transform variable stasiun of set data, resulting array
+    # Transform variable ContractRenewal of set data, resulting array
     ContractRenewal_features = ohe_ContractRenewal.transform(np.array(set_data[tranformed_column].to_list()).reshape(-1, 1))
 
     # Convert to dataframe
@@ -112,9 +128,9 @@ def ohe_transform(set_data: pd.DataFrame, tranformed_column: str, ohe_ContractRe
         axis = 1
     )
 
-    # Drop ContractRenewal_features column
+    # Drop ContractRenewal column
     set_data.drop(
-        columns = "ContractRenewal_features",
+        columns = "ContractRenewal",
         inplace = True
     )
 
@@ -124,6 +140,44 @@ def ohe_transform(set_data: pd.DataFrame, tranformed_column: str, ohe_ContractRe
 
     # Return new feature engineered set data
     return set_data
+
+#def ohe_transform_DataPlan(set_data: pd.DataFrame, tranformed_column: str, ohe_DataPlan: OneHotEncoder) -> pd.DataFrame:
+    # Create copy of set data
+    #set_data = set_data.copy()
+
+    # Transform variable stasiun of set data, resulting array
+    #DataPlan_features = ohe_DataPlan.transform(np.array(set_data[tranformed_column].to_list()).reshape(-1, 1))
+
+    # Convert to dataframe
+    #DataPlan_features = pd.DataFrame(
+    #    DataPlan_features,
+    #    columns = list(ohe_DataPlan.categories_[0])
+    #)
+
+    # Set index by original set data index
+    #DataPlan_features.set_index(
+    #    set_data.index,
+    #    inplace = True
+    #)
+
+    # Concatenate new features with original set data
+    #set_data = pd.concat(
+    #    [DataPlan_features, set_data],
+    #    axis = 1
+    #)
+
+    # Drop DataPlan column
+    #set_data.drop(
+    #    columns = "DataPlan",
+    #    inplace = True
+    #)
+
+    # Convert columns type to string
+    #new_col = [str(col_name) for col_name in set_data.columns.to_list()]
+    #set_data.columns = new_col
+
+    # Return new feature engineered set data
+    #return set_data
 
 def rus_fit_resample(set_data: pd.DataFrame) -> pd.DataFrame:
     # Create copy of set data
@@ -250,61 +304,61 @@ if __name__ == "__main__":
     valid_set = nan_detector(valid_set)
     test_set = nan_detector(test_set)
 
-    # 5. Handilng NaN ContractRenewal    
+    # 5. Handilng NaN AccountWeeks    
     # 5.1. Train set
     train_set.loc[train_set[(train_set.Churn == "Ya") & \
-    (train_set.ContractRenewal.isnull() == True)].index, "ContractRenewal"] = \
-    config_data["missing_value_ContractRenewal"]["Ya"]
+    (train_set.AccountWeeks.isnull() == True)].index, "AccountWeeks"] = \
+    config_data["missing_value_AccountWeeks"]["Ya"]
 
     train_set.loc[train_set[(train_set.Churn == "Tidak") & \
-    (train_set.ContractRenewal.isnull() == True)].index, "ContractRenewal"] = \
-    config_data["missing_value_ContractRenewal"]["Tidak"]
+    (train_set.AccountWeeks.isnull() == True)].index, "AccountWeeks"] = \
+    config_data["missing_value_AccountWeeks"]["Tidak"]
 
     # 5.2. Validation set
     valid_set.loc[valid_set[(valid_set.Churn == "Ya") & \
-    (valid_set.ContractRenewal.isnull() == True)].index, "ContractRenewal"] = \
-    config_data["missing_value_ContractRenewal"]["Ya"]
+    (valid_set.ContractRenewal.isnull() == True)].index, "AccountWeeks"] = \
+    config_data["missing_value_AccountWeeks"]["Ya"]
 
     valid_set.loc[valid_set[(valid_set.Churn == "Tidak") & \
-    (valid_set.ContractRenewal.isnull() == True)].index, "ContractRenewal"] = \
-    config_data["missing_value_ContractRenewal"]["Tidak"]
+    (valid_set.AccountWeeks.isnull() == True)].index, "AccountWeeks"] = \
+    config_data["missing_value_AccountWeeks"]["Tidak"]
 
     # 5.3. Test set
     test_set.loc[test_set[(test_set.Churn == "Ya") & \
-    (test_set.ContractRenewal.isnull() == True)].index, "ContractRenewal"] = \
-    config_data["missing_value_ContractRenewal"]["Ya"]
+    (test_set.AccountWeeks.isnull() == True)].index, "AccountWeeks"] = \
+    config_data["missing_value_AccountWeeks"]["Ya"]
 
     test_set.loc[test_set[(test_set.Churn == "Tidak") & \
-    (test_set.ContractRenewal.isnull() == True)].index, "ContractRenewal"] = \
-    config_data["missing_value_ContractRenewal"]["Tidak"]
+    (test_set.AccountWeeks.isnull() == True)].index, "AccountWeeks"] = \
+    config_data["missing_value_AccountWeeks"]["Tidak"]
 
-    # 6. Handling NaN DataPlan
+    # 6. Handling NaN DataUsage
     # 6.1. Train set
     train_set.loc[train_set[(train_set.Churn == "Ya") & \
-    (train_set.DataPlan.isnull() == True)].index, "DataPlan"] = \
-    config_data["missing_value_DataPlan"]["Ya"]
+    (train_set.DataUsage.isnull() == True)].index, "DataUsage"] = \
+    config_data["missing_value_DataUsage"]["Ya"]
 
     train_set.loc[train_set[(train_set.Churn == "Tidak") & \
-    (train_set.DataPlan.isnull() == True)].index, "DataPlan"] = \
-    config_data["missing_value_DataPlan"]["Tidak"]
+    (train_set.DataUsage.isnull() == True)].index, "DataUsage"] = \
+    config_data["missing_value_DataUsage"]["Tidak"]
 
     # 6.2. Validation set
     valid_set.loc[valid_set[(valid_set.Churn == "Ya") & \
-    (valid_set.DataPlan.isnull() == True)].index, "DataPlan"] = \
-    config_data["missing_value_DataPlan"]["Ya"]
+    (valid_set.DataUsage.isnull() == True)].index, "DataUsage"] = \
+    config_data["missing_value_DataUsage"]["Ya"]
 
     valid_set.loc[valid_set[(valid_set.Churn == "Tidak") & \
-    (valid_set.DataPlan.isnull() == True)].index, "DataPlan"] = \
-    config_data["missing_value_DataPlan"]["Tidak"]
+    (valid_set.DataUsage.isnull() == True)].index, "DataUsage"] = \
+    config_data["missing_value_DataUsage"]["Tidak"]
 
     # 6.3. Test set
     test_set.loc[test_set[(test_set.Churn == "Ya") & \
-    (test_set.DataPlan.isnull() == True)].index, "DataPlan"] = \
-    config_data["missing_value_DataPlan"]["Ya"]
+    (test_set.DataUsage.isnull() == True)].index, "DataUsage"] = \
+    config_data["missing_value_DataUsage"]["Ya"]
 
     test_set.loc[test_set[(test_set.Churn == "Tidak") & \
-    (test_set.DataPlan.isnull() == True)].index, "DataPlan"] = \
-    config_data["missing_value_DataPlan"]["Tidak"]
+    (test_set.DataUsage.isnull() == True)].index, "DataUsage"] = \
+    config_data["missing_value_DataUsage"]["Tidak"]
 
     # 7. Handling Nan AccountWeeks, DataUsage, CustServCalls, DayMins, DayCalls, MonthlyCharge, OverageFee, RoamMins
     impute_values = {
@@ -332,54 +386,54 @@ if __name__ == "__main__":
     )
 
     # 8. Fit ohe with predefined ContractRenewal data
-    ohe_ContractRenewal = ohe_fit(
+    ohe_ContractRenewal = ohe_fit_ContractRenewal(
         config_data["range_ContractRenewal"],
         config_data["ohe_ContractRenewal_path"]
     )
 
     # 8. Fit ohe with predefined DataPlan data
-    ohe_DataPlan = ohe_fit(
-        config_data["range_DataPlan"],
-        config_data["ohe_DataPlan_path"]
-    )
+    #ohe_DataPlan = ohe_fit_DataPlan(
+    #    config_data["range_DataPlan"],
+    #    config_data["ohe_DataPlan_path"]
+    #)
 
     # 9. Transform ContractRenewal on train, valid, and test set
-    train_set = ohe_transform(
+    train_set = ohe_transform_ContractRenewal(
         train_set,
         "ContractRenewal",
         ohe_ContractRenewal
     )
 
-    valid_set = ohe_transform(
+    valid_set = ohe_transform_ContractRenewal(
         valid_set,
         "ContractRenewal",
         ohe_ContractRenewal
     )
 
-    test_set = ohe_transform(
+    test_set = ohe_transform_ContractRenewal(
         test_set,
         "ContractRenewal",
         ohe_ContractRenewal
     )
 
     # 9. Transform DataPlan on train, valid, and test set
-    train_set = ohe_transform(
-        train_set,
-        "DataPlan",
-        ohe_DataPlan
-    )
+    #train_set = ohe_transform_DataPlan(
+    #    train_set,
+    #    "DataPlan",
+    #    ohe_DataPlan
+    #)
 
-    valid_set = ohe_transform(
-        valid_set,
-        "DataPlan",
-        ohe_DataPlan
-    )
+    #valid_set = ohe_transform_DataPlan(
+    #    valid_set,
+    #    "DataPlan",
+    #    ohe_DataPlan
+    #)
 
-    test_set = ohe_transform(
-        test_set,
-        "DataPlan",
-        ohe_DataPlan
-    )
+    #test_set = ohe_transform_DataPlan(
+    #    test_set,
+    #    "DataPlan",
+    #    ohe_DataPlan
+    #)
 
     # 10. Undersampling dataset
     train_set_rus = rus_fit_resample(train_set)
@@ -430,38 +484,38 @@ if __name__ == "__main__":
     x_train = {
         "Undersampling" : train_set_rus.drop(columns = "Churn"),
         "Oversampling" : train_set_ros.drop(columns = "Churn"),
-        "SMOTE" : train_set_sm.drop(columns = "Churn")
+    #    "SMOTE" : train_set_sm.drop(columns = "Churn")
     }
 
     y_train = {
         "Undersampling" : train_set_rus.Churn,
         "Oversampling" : train_set_ros.Churn,
-        "SMOTE" : train_set_sm.Churn
+    #    "SMOTE" : train_set_sm.Churn
     }
 
     util.pickle_dump(
         x_train,
-        "data/processed/x_train_feng.pkl"
+        "C:/Users/Axel/Desktop/Data Science/Telecom Prediction/data/processed/x_train_feng.pkl"
     )
     util.pickle_dump(
         y_train,
-        "data/processed/y_train_feng.pkl"
+        "C:/Users/Axel/Desktop/Data Science/Telecom Prediction/data/processed/y_train_feng.pkl"
     )
 
     util.pickle_dump(
-        valid_set.drop(columns = "categori"),
-        "data/processed/x_valid_feng.pkl"
+        valid_set.drop(columns = "Churn"),
+        "C:/Users/Axel/Desktop/Data Science/Telecom Prediction/data/processed/x_valid_feng.pkl"
     )
     util.pickle_dump(
-        valid_set.categori,
-        "data/processed/y_valid_feng.pkl"
+        valid_set.Churn,
+        "C:/Users/Axel/Desktop/Data Science/Telecom Prediction/data/processed/y_valid_feng.pkl"
     )
 
     util.pickle_dump(
-        test_set.drop(columns = "categori"),
-        "data/processed/x_test_feng.pkl"
+        test_set.drop(columns = "Churn"),
+        "C:/Users/Axel/Desktop/Data Science/Telecom Prediction/data/processed/x_test_feng.pkl"
     )
     util.pickle_dump(
-        test_set.categori,
-        "data/processed/y_test_feng.pkl"
+        test_set.Churn,
+        "C:/Users/Axel/Desktop/Data Science/Telecom Prediction/data/processed/y_test_feng.pkl"
     )

@@ -24,9 +24,6 @@ def check_data(input_data, params, api = False):
     params = copy.deepcopy(params)
 
     if not api:
-        # Check data types
-        assert input_data.select_dtypes("datetime").columns.to_list() == \
-            params["datetime_columns"], "an error occurs in datetime column(s)."
         assert input_data.select_dtypes("object").columns.to_list() == \
             params["object_columns"], "an error occurs in object column(s)."
         assert input_data.select_dtypes("int").columns.to_list() == \
@@ -46,9 +43,9 @@ def check_data(input_data, params, api = False):
         assert input_data.select_dtypes("object").columns.to_list() == params["object_columns"], "an error occurs in object column(s)."
 
     assert set(input_data.ContractRenewal).issubset(set(params["range_ContractRenewal"])), "an error occurs in ContractRenewal range."
-    assert set(input_data.DataPlan).issubset(set(params["range_DataPlan"])), "an error occurs in DataPlan range."
     assert set(input_data.Churn).issubset(set(params["range_Churn"])), "an error occurs in Churn range."
     assert input_data.ID.between(params["range_ID"][0], params["range_ID"][1]).sum() == len(input_data), "an error occurs in ID range."
+    assert input_data.DataPlan.between(params["range_DataPlan"][0], params["range_DataPlan"][1]).sum() == len(input_data), "an error occurs in DataPlan range."
     assert input_data.AccountWeeks.between(params["range_AccountWeeks"][0], params["range_AccountWeeks"][1]).sum() == len(input_data), "an error occurs in AccountWeeks range."
     assert input_data.DataUsage.between(params["range_DataUsage"][0], params["range_DataUsage"][1]).sum() == len(input_data), "an error occurs in DataUsage range."
     assert input_data.CustServCalls.between(params["range_CustServCalls"][0], params["range_CustServCalls"][1]).sum() == len(input_data), "an error occurs in CustServCalls range."
@@ -75,24 +72,36 @@ if __name__ == "__main__":
         raw_dataset,
         config_data["raw_dataset_path"]
     )
+
+    # 5. Handling AccountWeeks
+    raw_dataset.AccountWeeks = raw_dataset.AccountWeeks.replace("----", -1).astype(int)
+
+    raw_dataset.AccountWeeks.fillna(-1, inplace = True)
+
     # 5. Handling Data Usage
     raw_dataset.DataUsage = raw_dataset.DataUsage.replace("----", -1).astype(float)
 
-    raw_dataset.DataUsage.isna().sum()
+    raw_dataset.DataUsage.fillna(-1, inplace = True)
 
     # 6. Handling CustServCalls
     raw_dataset.CustServCalls = raw_dataset.CustServCalls.replace("----", -1).astype(int)
 
-    # 7. Handling CustServCalls
-    raw_dataset.DayMins = raw_dataset.DayMins.replace("----", -1).astype(int)
+    raw_dataset.CustServCalls.fillna(-1, inplace = True)
+
+    # 7. Handling DayMins
+    raw_dataset.DayMins = raw_dataset.DayMins.replace("----", -1).astype(float)
 
     raw_dataset.DayMins.fillna(-1, inplace = True)
     
     # 8. Handling DayCalls
     raw_dataset.DayCalls = raw_dataset.DayCalls.replace("----", -1).astype(int)
 
+    raw_dataset.DayCalls.fillna(-1, inplace = True)
+
     # 9. Handling MonthlyCharge
     raw_dataset.MonthlyCharge = raw_dataset.MonthlyCharge.replace("----", -1).astype(float)
+
+    raw_dataset.MonthlyCharge.fillna(-1, inplace = True)
 
     # 10. Handling OverageFee
     raw_dataset.OverageFee = raw_dataset.OverageFee.replace("----", -1).astype(float)
@@ -101,12 +110,14 @@ if __name__ == "__main__":
 
     # 11. Handling RoamMins
     raw_dataset.RoamMins = raw_dataset.RoamMins.replace("----", -1).astype(float)
+    
+    raw_dataset.RoamMins.fillna(-1, inplace = True)
 
-    # 12. Handling variable Churn
     util.pickle_dump(
         raw_dataset,
         config_data["cleaned_raw_dataset_path"]
     )
+
     # 13. Check data definition
     check_data(raw_dataset, config_data)
 
