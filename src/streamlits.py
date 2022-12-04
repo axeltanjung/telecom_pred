@@ -3,7 +3,7 @@ import requests
 from PIL import Image
 
 # Load and set images in the first place
-header_images = Image.open('C:/Users/Axel/Desktop/Data Science/Telecom Prediction/assets/header_images.jpg')
+header_images = Image.open('assets/header_images.jpg')
 st.image(header_images)
 
 # Add some information about the service
@@ -12,6 +12,14 @@ st.subheader("Isikan variable dibawah dah klik 'Predict':")
 
 # Create form of input
 with st.form(key = "telecom_data_form"):
+        # Create box for number input
+    ID = st.number_input(
+        label = "1.Masukkan Nomor ID:",
+        min_value = 0,
+        max_value = 3333,
+        help = "Rentang nilai dari 0 hingga 3333"
+    )
+    
     # Create select box input
     ContractRenewal = st.selectbox(
         label = "1.Apakah customer melakukan perpanjangan kontrak masa berlaku?",
@@ -20,15 +28,6 @@ with st.form(key = "telecom_data_form"):
             "NotRenewal",
         )
     )
-
-    # Create select box input
-    #DataPlan = st.selectbox(
-    #    label = "2.Apakah customer menggunakan Data Plan untuk berkomunikasi?",
-    #    options = (
-    #        "Use",
-    #        "NotUse",
-    #    )
-    #)
 
     # Create box for number input
     DataPlan = st.number_input(
@@ -103,6 +102,8 @@ with st.form(key = "telecom_data_form"):
     if submitted:
         # Create dict of all data in the form
         raw_data = {
+            "ID": ID,
+            "AccountWeeks":AccountWeeks,
             "ContractRenewal": ContractRenewal,
             "DataPlan": DataPlan,
             "DataUsage": DataUsage,
@@ -117,8 +118,13 @@ with st.form(key = "telecom_data_form"):
         # Create loading animation while predicting
         with st.spinner("Sending data to prediction server ..."):
             res = requests.post("http://localhost:8080/predict/", json = raw_data).json()
-        st.write(res)
 
+        #with open(res,'r') as f:
+        #    x = json.loads(f)
+            
+        
+        st.write(res)
+        #
         # Parse the prediction result
         #if res["error_msg"] != "":
         #    st.error("Error Occurs While Predicting: {}".format(res["error_msg"]))

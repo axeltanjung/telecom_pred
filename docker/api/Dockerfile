@@ -1,6 +1,6 @@
 FROM python:3.9.15-slim-buster
 
-WORKDIR /usr/app
+WORKDIR /home
 
 COPY ./requirements.txt ./
 
@@ -15,4 +15,4 @@ pip install -r requirements.txt
 
 EXPOSE 8080
 
-CMD ["python", "src/api.py"]
+CMD ["python","src/api.py"]

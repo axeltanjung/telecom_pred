@@ -2,7 +2,7 @@ import yaml
 import joblib
 from datetime import datetime
 
-config_dir = "C:/Users/Axel/Desktop/Data Science/Telecom Prediction/config/config.yaml"
+config_dir = "config/config.yaml"
 
 def time_stamp() -> datetime:
     # Return current date and time

@@ -1,29 +1,29 @@
-raw_dataset_dir: 'C:/Users/Axel/Desktop/Data Science/Telecom Prediction/data/raw/'
-raw_dataset_path: 'C:/Users/Axel/Desktop/Data Science/Telecom Prediction/data/processed/raw_dataset.pkl'
-cleaned_raw_dataset_path: 'C:/Users/Axel/Desktop/Data Science/Telecom Prediction/data/processed/raw_dataset.pkl'
+raw_dataset_dir: data/raw/
+raw_dataset_path: data/processed/raw_dataset.pkl
+cleaned_raw_dataset_path: data/processed/raw_dataset.pkl
 train_set_path: 
-- 'C:/Users/Axel/Desktop/Data Science/Telecom Prediction/data/processed/x_train.pkl'
-- 'C:/Users/Axel/Desktop/Data Science/Telecom Prediction/data/processed/y_train.pkl'
+- data/processed/x_train.pkl
+- data/processed/y_train.pkl
 valid_set_path:
-- 'C:/Users/Axel/Desktop/Data Science/Telecom Prediction/data/processed/x_valid.pkl'
-- 'C:/Users/Axel/Desktop/Data Science/Telecom Prediction/data/processed/y_valid.pkl'
+- data/processed/x_valid.pkl
+- data/processed/y_valid.pkl
 test_set_path:
-- 'C:/Users/Axel/Desktop/Data Science/Telecom Prediction/data/processed/x_test.pkl'
-- 'C:/Users/Axel/Desktop/Data Science/Telecom Prediction/data/processed/y_test.pkl'
+- data/processed/x_test.pkl
+- data/processed/y_test.pkl
 train_feng_set_path:
-- 'C:/Users/Axel/Desktop/Data Science/Telecom Prediction/data/processed/x_train_feng.pkl'
-- 'C:/Users/Axel/Desktop/Data Science/Telecom Prediction/data/processed/y_train_feng.pkl'
+- data/processed/x_train_feng.pkl
+- data/processed/y_train_feng.pkl
 valid_feng_set_path:
-- 'C:/Users/Axel/Desktop/Data Science/Telecom Prediction/data/processed/x_valid_feng.pkl'
-- 'C:/Users/Axel/Desktop/Data Science/Telecom Prediction/data/processed/y_valid_feng.pkl'
+- data/processed/x_valid_feng.pkl
+- data/processed/y_valid_feng.pkl
 test_feng_set_path:
-- 'C:/Users/Axel/Desktop/Data Science/Telecom Prediction/data/processed/x_test_feng.pkl'
-- 'C:/Users/Axel/Desktop/Data Science/Telecom Prediction/data/processed/y_test_feng.pkl'
-ohe_ContractRenewal_path: 'C:/Users/Axel/Desktop/Data Science/Telecom Prediction/models/ohe_ContractRenewal.pkl'
-ohe_DataPlan_path: 'C:/Users/Axel/Desktop/Data Science/Telecom Prediction/models/ohe_DataPlan.pkl'
-production_model_path: 'C:/Users/Axel/Desktop/Data Science/Telecom Prediction/models/production_model.pkl'
-le_encoder_path: 'C:/Users/Axel/Desktop/Data Science/Telecom Prediction/models/le_encoder.pkl'
-training_log_path: 'C:/Users/Axel/Desktop/Data Science/Telecom Prediction/log/training_log.json'
+- data/processed/x_test_feng.pkl
+- data/processed/y_test_feng.pkl
+ohe_ContractRenewal_path: models/ohe_ContractRenewal.pkl
+ohe_DataPlan_path: models/ohe_DataPlan.pkl
+production_model_path: models/production_model.pkl
+le_encoder_path: models/le_encoder.pkl
+training_log_path: log/training_log.json
 float64_columns:
 - DataUsage
 - DayMins
@@ -62,22 +62,30 @@ missing_value_DayMins: 179.63004735256132
 missing_value_MonthlyCharge: 53
 missing_value_OverageFee: 10.12
 missing_value_RoamMins: 10.12
-missing_value_co: 11
-missing_value_no2: 18
-missing_value_o3: 29
-missing_value_so2: 35
 object_columns:
 - ContractRenewal
 - Churn
+#predictors:
+#- ContractRenewal
+#- ID
+#- AccountWeeks
+#- DataPlan
+#- DataUsage
+#- CustServCalls
+#- DayMins
+#- DayCalls
+#- MonthlyCharge
+#- OverageFee
+#- RoamMins
 predictors:
 - ContractRenewal
 - ID
 - AccountWeeks
 - DataPlan
-- DataUsage
 - CustServCalls
-- DayMins
 - DayCalls
+- DataUsage
+- DayMins
 - MonthlyCharge
 - OverageFee
 - RoamMins

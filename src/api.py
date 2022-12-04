@@ -8,11 +8,11 @@ import preprocessing as preprocessing
 
 config_data = util.load_config()
 ohe_ContractRenewal = util.pickle_load(config_data["ohe_ContractRenewal_path"])
-#ohe_DataPlan = util.pickle_load(config_data["ohe_DataPlan_path"])
 le_encoder = util.pickle_load(config_data["le_encoder_path"])
 model_data = util.pickle_load(config_data["production_model_path"])
 
 class api_data(BaseModel):
+    ID : int
     AccountWeeks : int   
     ContractRenewal : str
     DataPlan : int
@@ -34,15 +34,27 @@ def home():
 def predict(data: api_data):    
     # Convert data api to dataframe
     data = pd.DataFrame(data).set_index(0).T.reset_index(drop = True)
-
+    # Convert data api to dataframe
+    #datacolumns = data.columns
+    #data = pd.DataFrame(data).T.set_index(datacolumns)
+    # Convert dtype
+    #data = pd.concat(
+    #    [
+    #        data[config_data["predictors"][0]],
+    #        data[config_data["predictors"][1,2,3,5,7]].astype(int),
+    #    ],
+    #    axis = 1
+    #)
     # Convert dtype
     data = pd.concat(
         [
             data[config_data["predictors"][0]],
-            data[config_data["predictors"][1:]].astype(int)
+            data[config_data["predictors"][1:4]].astype(int),
+            data[config_data["predictors"][4:]].astype(float)
         ],
         axis = 1
     )
+
 
     # Check range data
     try:
@@ -52,10 +64,6 @@ def predict(data: api_data):
     
     # Encoding ContractRenewal
     data = preprocessing.ohe_transform_ContractRenewal(data, ["ContractRenewal"], ohe_ContractRenewal)
-    
-    #Cek lagi
-    # Encoding DataPlan
-    #data = preprocessing.ohe_transform_DataPlan(data, "DataPlan", ohe_DataPlan)
 
     # Predict data
     y_pred = model_data["model_data"]["model_object"].predict(data)

@@ -2,7 +2,7 @@ name : Prediksi Customer Churn pada Perusahaan Telecom
 services:
   streamlit:
     build: docker/streamlit
-    image: axel/Telecom_Pred
+    image: axel/telecom_pred_streamlit
     container_name : streamlit_frontend
     depends_on :
       - api
@@ -12,7 +12,7 @@ services:
       - ./:/home/
   api:
     build: docker/api
-    image: axel/Telecom_Pred
+    image: axel/telecom_pred_api
     container_name : api_backend
     ports :
       - 8080:8080

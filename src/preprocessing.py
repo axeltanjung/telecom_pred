@@ -87,22 +87,6 @@ def ohe_fit_ContractRenewal(data_tobe_fitted: dict, ohe_path: str) -> OneHotEnco
     # Return trained ohe
     return ohe_ContractRenewal
 
-#def ohe_fit_DataPlan(data_tobe_fitted: dict, ohe_path: str) -> OneHotEncoder:
-    # Create ohe object
-    #ohe_DataPlan = OneHotEncoder(sparse = False)
-
-    # Fit ohe
-    #ohe_DataPlan.fit(np.array(data_tobe_fitted).reshape(-1, 1))
-
-    # Save ohe object
-    #util.pickle_dump(
-    #    ohe_DataPlan,
-    #   ohe_path
-    #)
-
-    # Return trained ohe
-    #return ohe_DataPlan
-
 def ohe_transform_ContractRenewal(set_data: pd.DataFrame, tranformed_column: str, ohe_ContractRenewal: OneHotEncoder) -> pd.DataFrame:
     # Create copy of set data
     set_data = set_data.copy()
@@ -140,44 +124,6 @@ def ohe_transform_ContractRenewal(set_data: pd.DataFrame, tranformed_column: str
 
     # Return new feature engineered set data
     return set_data
-
-#def ohe_transform_DataPlan(set_data: pd.DataFrame, tranformed_column: str, ohe_DataPlan: OneHotEncoder) -> pd.DataFrame:
-    # Create copy of set data
-    #set_data = set_data.copy()
-
-    # Transform variable stasiun of set data, resulting array
-    #DataPlan_features = ohe_DataPlan.transform(np.array(set_data[tranformed_column].to_list()).reshape(-1, 1))
-
-    # Convert to dataframe
-    #DataPlan_features = pd.DataFrame(
-    #    DataPlan_features,
-    #    columns = list(ohe_DataPlan.categories_[0])
-    #)
-
-    # Set index by original set data index
-    #DataPlan_features.set_index(
-    #    set_data.index,
-    #    inplace = True
-    #)
-
-    # Concatenate new features with original set data
-    #set_data = pd.concat(
-    #    [DataPlan_features, set_data],
-    #    axis = 1
-    #)
-
-    # Drop DataPlan column
-    #set_data.drop(
-    #    columns = "DataPlan",
-    #    inplace = True
-    #)
-
-    # Convert columns type to string
-    #new_col = [str(col_name) for col_name in set_data.columns.to_list()]
-    #set_data.columns = new_col
-
-    # Return new feature engineered set data
-    #return set_data
 
 def rus_fit_resample(set_data: pd.DataFrame) -> pd.DataFrame:
     # Create copy of set data
@@ -416,25 +362,6 @@ if __name__ == "__main__":
         ohe_ContractRenewal
     )
 
-    # 9. Transform DataPlan on train, valid, and test set
-    #train_set = ohe_transform_DataPlan(
-    #    train_set,
-    #    "DataPlan",
-    #    ohe_DataPlan
-    #)
-
-    #valid_set = ohe_transform_DataPlan(
-    #    valid_set,
-    #    "DataPlan",
-    #    ohe_DataPlan
-    #)
-
-    #test_set = ohe_transform_DataPlan(
-    #    test_set,
-    #    "DataPlan",
-    #    ohe_DataPlan
-    #)
-
     # 10. Undersampling dataset
     train_set_rus = rus_fit_resample(train_set)
 
@@ -495,27 +422,27 @@ if __name__ == "__main__":
 
     util.pickle_dump(
         x_train,
-        "C:/Users/Axel/Desktop/Data Science/Telecom Prediction/data/processed/x_train_feng.pkl"
+        "data/processed/x_train_feng.pkl"
     )
     util.pickle_dump(
         y_train,
-        "C:/Users/Axel/Desktop/Data Science/Telecom Prediction/data/processed/y_train_feng.pkl"
+        "data/processed/y_train_feng.pkl"
     )
 
     util.pickle_dump(
         valid_set.drop(columns = "Churn"),
-        "C:/Users/Axel/Desktop/Data Science/Telecom Prediction/data/processed/x_valid_feng.pkl"
+        "data/processed/x_valid_feng.pkl"
     )
     util.pickle_dump(
         valid_set.Churn,
-        "C:/Users/Axel/Desktop/Data Science/Telecom Prediction/data/processed/y_valid_feng.pkl"
+        "data/processed/y_valid_feng.pkl"
     )
 
     util.pickle_dump(
         test_set.drop(columns = "Churn"),
-        "C:/Users/Axel/Desktop/Data Science/Telecom Prediction/data/processed/x_test_feng.pkl"
+        "data/processed/x_test_feng.pkl"
     )
     util.pickle_dump(
         test_set.Churn,
-        "C:/Users/Axel/Desktop/Data Science/Telecom Prediction/data/processed/y_test_feng.pkl"
+        "data/processed/y_test_feng.pkl"
     )
