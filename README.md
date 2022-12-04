@@ -20,14 +20,9 @@ Maka dari itu, sebuah keniscayaan untuk industri telekomunikasi menggunakan adva
 
 ```python src/modeling.py```
 
-2. Untuk menjalankan secara local, jalankan script berikut pada dua terminal yang berbeda
-* Untuk service pada API
+2. Untuk menjalankan secara local, jalankan script berikut :
 
-```python src/api.py```
-
-* Untuk servic pada streamlit
-
-```streamlit run streamlits.py```
+```sudo docker compose up```
 
 ## Flow Chart Permodelan Machine Learning
 ![End-to-end Maching Learning Pipeline](https://user-images.githubusercontent.com/87402782/205479152-99c8f3be-abb2-4544-b06d-fe4a276bca1a.png)
@@ -255,11 +250,6 @@ with st.form(key = "telecom_data_form"):
 ```python src/modeling.py```
  ### Running API
  
-Untuk menjalankan secara local, jalankan script berikut pada dua terminal yang berbeda
-* Untuk service pada API
+Untuk menjalankan secara local, jalankan script berikut:
 
-```python src/api.py```
-
-* Untuk servic pada streamlit
-
-```streamlit run streamlits.py```
+```sudo docker compose up```
