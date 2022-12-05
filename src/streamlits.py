@@ -119,17 +119,12 @@ with st.form(key = "telecom_data_form"):
         with st.spinner("Sending data to prediction server ..."):
             res = requests.post("http://localhost:8080/predict/", json = raw_data).json()
 
-        #with open(res,'r') as f:
-        #    x = json.loads(f)
-            
-        
-        st.write(res)
-        #
+
         # Parse the prediction result
-        #if res["error_msg"] != "":
-        #    st.error("Error Occurs While Predicting: {}".format(res["error_msg"]))
-        #else:
-        #    if res["res"] != "Ya":
-        #        st.warning("Prediksi Churn Customer: Tidak.")
-        #    else:
-        #        st.success("Prediksi Churn Customer: Ya.")
+        if res["error_msg"] != "":
+            st.error("Error Occurs While Predicting: {}".format(res["error_msg"]))
+        else:
+            if res["res"] != "Ya":
+                st.warning("Prediksi Churn Customer: Tidak.")
+            else:
+                st.success("Prediksi Churn Customer: Ya.")
