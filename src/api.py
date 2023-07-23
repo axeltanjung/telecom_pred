@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 import uvicorn
 import pandas as pd
+import numpy as np
 import util as util
 import data_pipeline as data_pipeline
 import preprocessing as preprocessing
@@ -48,9 +49,9 @@ def predict(data: api_data):
     # Convert dtype
     data = pd.concat(
         [
-            data[config_data["predictors"][0]],
-            data[config_data["predictors"][1:4]].astype(int),
-            data[config_data["predictors"][4:]].astype(float)
+            data[config_data["predictors"][0]].astype(str),
+            data[config_data["predictors"][1:4]].astype(np.int32),
+            data[config_data["predictors"][5:]].astype(np.float64)
         ],
         axis = 1
     )
@@ -67,11 +68,16 @@ def predict(data: api_data):
 
     # Predict data
     y_pred = model_data["model_data"]["model_object"].predict(data)
+    #y_pred = model_data.predict(data)
 
     # Inverse tranform
-    y_pred = list(le_encoder.inverse_transform(y_pred))[0] 
+    y_pred = list(le_encoder.inverse_transform(y_pred))[0]
 
-    return {"res" : y_pred, "error_msg": ""}
+    #if y_pred[0] == 0:
+    #    y_pred = "Tidak Churn"
+    #else:
+    #    y_pred = "Churn"
+    #return {"res" : y_pred, "error_msg": ""}
 
 if __name__ == "__main__":
     uvicorn.run("api:app", host = "0.0.0.0", port = 8080)

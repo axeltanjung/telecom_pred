@@ -22,7 +22,7 @@ with st.form(key = "telecom_data_form"):
     
     # Create select box input
     ContractRenewal = st.selectbox(
-        label = "1.Apakah customer melakukan perpanjangan kontrak masa berlaku?",
+        label = "2.Apakah customer melakukan perpanjangan kontrak masa berlaku?",
         options = (
             "Renewal",
             "NotRenewal",
@@ -31,7 +31,7 @@ with st.form(key = "telecom_data_form"):
 
     # Create box for number input
     DataPlan = st.number_input(
-        label = "2.Apakah customer menggunakan Data Plan untuk berkomunikasi? (Ya : 1 | Tidak : 0):",
+        label = "3.Apakah customer menggunakan Data Plan untuk berkomunikasi? (Ya : 1 | Tidak : 0):",
         min_value = 0,
         max_value = 1,
         help = "Rentang nilai Ya : 1 | Tidak : 0"
@@ -39,56 +39,56 @@ with st.form(key = "telecom_data_form"):
 
     # Create box for number input
     AccountWeeks = st.number_input(
-        label = "3.Total berapa minggu akun customer telah aktif?:",
+        label = "4.Total berapa minggu akun customer telah aktif?:",
         min_value = 0,
         max_value = 250,
         help = "Rentang nilai dari 0 hingga 250 minggu"
     )
     
     DataUsage = st.number_input(
-        label = "4.Berapa total data usage perbulan yang digunakan customer (GB)?:",
+        label = "5.Berapa total data usage perbulan yang digunakan customer (GB)?:",
         min_value = 0,
         max_value = 10,
         help = "Rentang nilai dari 0 hingga 10 GB"
     )
 
     CustServCalls = st.number_input(
-        label = "5.Berapa total panggilan kepada customer service yang dilakukan?:",
+        label = "6.Berapa total panggilan kepada customer service yang dilakukan?:",
         min_value = 0,
         max_value = 10,
         help = "Rentang nilai dari 0 hingga 10 kali"
     )
 
     DayMins = st.number_input(
-        label = "6.Berapa menit rata-rata total penggunaan servis tiap bulan?:",
+        label = "7.Berapa menit rata-rata total penggunaan servis tiap bulan?:",
         min_value = 0,
         max_value = 375,
         help = "Rentang nilai dari 0 hingga 375 menit"
     )
 
     DayCalls = st.number_input(
-        label = "7.Berapa jumlah rata-rata panggilan dalam sebulan:?",
+        label = "8.Berapa jumlah rata-rata panggilan dalam sebulan:?",
         min_value = 0,
         max_value = 200,
         help = "Rentang nilai dari 0 hingga 200 menit"
     )
 
     MonthlyCharge = st.number_input(
-        label = "8.Berapa rata-rata jumlah tagihan bulanan?:",
+        label = "9.Berapa rata-rata jumlah tagihan bulanan?:",
         min_value = 0,
         max_value = 150,
-        help = "Rentang nilai dari 0 hingga 200 dollar"
+        help = "Rentang nilai dari 0 hingga 150 dollar"
     )
 
     OverageFee = st.number_input(
-        label = "9.Berapa nilai tagihan terbesar dalam 12 bulan?:",
+        label = "10.Berapa nilai tagihan terbesar dalam 12 bulan?:",
         min_value = 0,
         max_value = 150,
-        help = "Rentang nilai dari 0 hingga 20 dollar"
+        help = "Rentang nilai dari 0 hingga 150 dollar"
     )
     
     RoamMins = st.number_input(
-        label = "10.Berapa rata-rata waktu roaming?:",
+        label = "11.Berapa rata-rata waktu roaming?:",
         min_value = 0,
         max_value = 25,
         help = "Rentang nilai dari 0 hingga 25 dollar"
