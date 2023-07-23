@@ -35,7 +35,6 @@ jobs:
     - name: Docker Compose Build and Push
       run: |
         docker compose build --no-cache
-        docker compose tag axeltanjung
         docker compose push
   
   docker-pull-ec2:
