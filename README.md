@@ -20,7 +20,7 @@ Maka dari itu, sebuah keniscayaan untuk industri telekomunikasi menggunakan adva
 
 ```python src/modeling.py```
 
-2. Untuk menjalankan secara local, jalankan script berikut :
+2. Untuk menjalankan secara local, jalankan script berikut ini :
 
 ```sudo docker compose up```
 
