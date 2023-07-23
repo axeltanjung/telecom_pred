@@ -35,6 +35,7 @@ jobs:
     - name: Docker Compose Build and Push
       run: |
         docker compose build --no-cache
+        docker compose tag axeltanjung
         docker compose push
   
   docker-pull-ec2:
@@ -69,5 +70,5 @@ jobs:
         ssh deploy_ec2 "rm -rf temp/"
         ssh deploy_ec2 "cd ml_process_demo/ && git lfs pull"
         ssh deploy_ec2 "cd ml_process_demo/ && sudo docker compose rm -sf api && sudo docker compose rm -sf streamlit"
-        ssh deploy_ec2 "cd ml_process_demo/ || sudo docker rmi axel/telecom_pred_api || sudo docker rmi axel/telecom_pred_streamlit"
+        ssh deploy_ec2 "cd ml_process_demo/ || sudo docker rmi axeltanjung/telecom_pred_api || sudo docker rmi axeltanjung/telecom_pred_streamlit"
         ssh deploy_ec2 "cd ml_process_demo/ && sudo docker compose pull && sudo docker compose up -d"
