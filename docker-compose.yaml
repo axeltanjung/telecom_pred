@@ -1,4 +1,4 @@
-name : Prediksi Customer Churn pada Perusahaan Telecom
+name : prediksi_customer_churn
 services:
   streamlit:
     build: docker/streamlit
