@@ -117,7 +117,7 @@ with st.form(key = "telecom_data_form"):
 
         # Create loading animation while predicting
         with st.spinner("Sending data to prediction server ..."):
-            res = requests.post("http://api:8080/predict/", json = raw_data).json()
+            res = requests.post("http://api_backend:8080/predict/", json = raw_data).json()
 
 
         # Parse the prediction result
