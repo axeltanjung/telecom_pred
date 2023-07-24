@@ -71,59 +71,59 @@ def nan_detector(set_data: pd.DataFrame) -> pd.DataFrame:
     return set_data
 
 
-def ohe_fit_ContractRenewal(data_tobe_fitted: dict, ohe_path: str) -> OneHotEncoder:
-    # Create ohe object
-    ohe_ContractRenewal = OneHotEncoder(sparse = False)
+# def ohe_fit_ContractRenewal(data_tobe_fitted: dict, ohe_path: str) -> OneHotEncoder:
+#     # Create ohe object
+#     ohe_ContractRenewal = OneHotEncoder(sparse = False)
 
-    # Fit ohe
-    ohe_ContractRenewal.fit(np.array(data_tobe_fitted).reshape(-1, 1))
+#     # Fit ohe
+#     ohe_ContractRenewal.fit(np.array(data_tobe_fitted).reshape(-1, 1))
 
-    # Save ohe object
-    util.pickle_dump(
-        ohe_ContractRenewal,
-        ohe_path
-    )
+#     # Save ohe object
+#     util.pickle_dump(
+#         ohe_ContractRenewal,
+#         ohe_path
+#     )
 
-    # Return trained ohe
-    return ohe_ContractRenewal
+#     # Return trained ohe
+#     return ohe_ContractRenewal
 
-def ohe_transform_ContractRenewal(set_data: pd.DataFrame, tranformed_column: str, ohe_ContractRenewal: OneHotEncoder) -> pd.DataFrame:
-    # Create copy of set data
-    set_data = set_data.copy()
+# def ohe_transform_ContractRenewal(set_data: pd.DataFrame, tranformed_column: str, ohe_ContractRenewal: OneHotEncoder) -> pd.DataFrame:
+#     # Create copy of set data
+#     set_data = set_data.copy()
 
-    # Transform variable ContractRenewal of set data, resulting array
-    ContractRenewal_features = ohe_ContractRenewal.transform(np.array(set_data[tranformed_column].to_list()).reshape(-1, 1))
+#     # Transform variable ContractRenewal of set data, resulting array
+#     ContractRenewal_features = ohe_ContractRenewal.transform(np.array(set_data[tranformed_column].to_list()).reshape(-1, 1))
 
-    # Convert to dataframe
-    ContractRenewal_features = pd.DataFrame(
-        ContractRenewal_features,
-        columns = list(ohe_ContractRenewal.categories_[0])
-    )
+#     # Convert to dataframe
+#     ContractRenewal_features = pd.DataFrame(
+#         ContractRenewal_features,
+#         columns = list(ohe_ContractRenewal.categories_[0])
+#     )
 
-    # Set index by original set data index
-    ContractRenewal_features.set_index(
-        set_data.index,
-        inplace = True
-    )
+#     # Set index by original set data index
+#     ContractRenewal_features.set_index(
+#         set_data.index,
+#         inplace = True
+#     )
 
-    # Concatenate new features with original set data
-    set_data = pd.concat(
-        [ContractRenewal_features, set_data],
-        axis = 1
-    )
+#     # Concatenate new features with original set data
+#     set_data = pd.concat(
+#         [ContractRenewal_features, set_data],
+#         axis = 1
+#     )
 
-    # Drop ContractRenewal column
-    set_data.drop(
-        columns = "ContractRenewal",
-        inplace = True
-    )
+#     # Drop ContractRenewal column
+#     set_data.drop(
+#         columns = "ContractRenewal",
+#         inplace = True
+#     )
 
-    # Convert columns type to string
-    new_col = [str(col_name) for col_name in set_data.columns.to_list()]
-    set_data.columns = new_col
+#     # Convert columns type to string
+#     new_col = [str(col_name) for col_name in set_data.columns.to_list()]
+#     set_data.columns = new_col
 
-    # Return new feature engineered set data
-    return set_data
+#     # Return new feature engineered set data
+#     return set_data
 
 def rus_fit_resample(set_data: pd.DataFrame) -> pd.DataFrame:
     # Create copy of set data
@@ -262,7 +262,7 @@ if __name__ == "__main__":
 
     # 5.2. Validation set
     valid_set.loc[valid_set[(valid_set.Churn == "Ya") & \
-    (valid_set.ContractRenewal.isnull() == True)].index, "AccountWeeks"] = \
+    (valid_set.AccountWeeks.isnull() == True)].index, "AccountWeeks"] = \
     config_data["missing_value_AccountWeeks"]["Ya"]
 
     valid_set.loc[valid_set[(valid_set.Churn == "Tidak") & \
@@ -332,35 +332,29 @@ if __name__ == "__main__":
     )
 
     # 8. Fit ohe with predefined ContractRenewal data
-    ohe_ContractRenewal = ohe_fit_ContractRenewal(
-        config_data["range_ContractRenewal"],
-        config_data["ohe_ContractRenewal_path"]
-    )
-
-    # 8. Fit ohe with predefined DataPlan data
-    #ohe_DataPlan = ohe_fit_DataPlan(
-    #    config_data["range_DataPlan"],
-    #    config_data["ohe_DataPlan_path"]
+    #ohe_ContractRenewal = ohe_fit_ContractRenewal(
+    #    config_data["range_ContractRenewal"],
+    #    config_data["ohe_ContractRenewal_path"]
     #)
 
     # 9. Transform ContractRenewal on train, valid, and test set
-    train_set = ohe_transform_ContractRenewal(
-        train_set,
-        "ContractRenewal",
-        ohe_ContractRenewal
-    )
+    #train_set = ohe_transform_ContractRenewal(
+    #    train_set,
+    #    "ContractRenewal",
+    #    ohe_ContractRenewal
+    #)
 
-    valid_set = ohe_transform_ContractRenewal(
-        valid_set,
-        "ContractRenewal",
-        ohe_ContractRenewal
-    )
+    #valid_set = ohe_transform_ContractRenewal(
+    #    valid_set,
+    #    "ContractRenewal",
+    #    ohe_ContractRenewal
+    #)
 
-    test_set = ohe_transform_ContractRenewal(
-        test_set,
-        "ContractRenewal",
-        ohe_ContractRenewal
-    )
+    #test_set = ohe_transform_ContractRenewal(
+    #    test_set,
+    #    "ContractRenewal",
+    #    ohe_ContractRenewal
+    #)
 
     # 10. Undersampling dataset
     train_set_rus = rus_fit_resample(train_set)

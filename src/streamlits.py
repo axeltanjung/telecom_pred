@@ -14,19 +14,18 @@ st.subheader("Isikan variable dibawah dah klik 'Predict':")
 with st.form(key = "telecom_data_form"):
         # Create box for number input
     ID = st.number_input(
-        label = "1.Masukkan Nomor ID:",
+        label = "1.Masukkan Nomor ID :",
         min_value = 0,
         max_value = 3333,
-        help = "Rentang nilai dari 0 hingga 3333"
+        help = "Rentang nilai dari 0 hingga 3333 (ID)"
     )
     
-    # Create select box input
-    ContractRenewal = st.selectbox(
-        label = "2.Apakah customer melakukan perpanjangan kontrak masa berlaku?",
-        options = (
-            "Renewal",
-            "NotRenewal",
-        )
+    # Create box for number input
+    ContractRenewal = st.number_input(
+        label = "2.Apakah Customer melakukan pembaharuan kontrak? (Ya : 1 | Tidak : 0):",
+        min_value = 0,
+        max_value = 1,
+        help = "Rentang nilai Ya : 1 | Tidak : 0 (ContractRenewal)"
     )
 
     # Create box for number input
@@ -34,64 +33,64 @@ with st.form(key = "telecom_data_form"):
         label = "3.Apakah customer menggunakan Data Plan untuk berkomunikasi? (Ya : 1 | Tidak : 0):",
         min_value = 0,
         max_value = 1,
-        help = "Rentang nilai Ya : 1 | Tidak : 0"
+        help = "Rentang nilai Ya : 1 | Tidak : 0 (DataPlan)"
     )
 
     # Create box for number input
     AccountWeeks = st.number_input(
         label = "4.Total berapa minggu akun customer telah aktif?:",
         min_value = 0,
-        max_value = 250,
-        help = "Rentang nilai dari 0 hingga 250 minggu"
+        max_value = 270,
+        help = "Rentang nilai dari 0 hingga 270 minggu (AccountWeeks)"
     )
     
     DataUsage = st.number_input(
         label = "5.Berapa total data usage perbulan yang digunakan customer (GB)?:",
         min_value = 0,
         max_value = 10,
-        help = "Rentang nilai dari 0 hingga 10 GB"
+        help = "Rentang nilai dari 0 hingga 10 GB (DataUsage)"
     )
 
     CustServCalls = st.number_input(
         label = "6.Berapa total panggilan kepada customer service yang dilakukan?:",
         min_value = 0,
-        max_value = 10,
-        help = "Rentang nilai dari 0 hingga 10 kali"
+        max_value = 15,
+        help = "Rentang nilai dari 0 hingga 15 kali (CustServCalls)"
     )
 
     DayMins = st.number_input(
         label = "7.Berapa menit rata-rata total penggunaan servis tiap bulan?:",
         min_value = 0,
-        max_value = 375,
-        help = "Rentang nilai dari 0 hingga 375 menit"
+        max_value = 400,
+        help = "Rentang nilai dari 0 hingga 400 menit (DayMins)"
     )
 
     DayCalls = st.number_input(
         label = "8.Berapa jumlah rata-rata panggilan dalam sebulan:?",
         min_value = 0,
         max_value = 200,
-        help = "Rentang nilai dari 0 hingga 200 menit"
+        help = "Rentang nilai dari 0 hingga 200 menit (DayCalls)"
     )
 
     MonthlyCharge = st.number_input(
         label = "9.Berapa rata-rata jumlah tagihan bulanan?:",
         min_value = 0,
-        max_value = 150,
-        help = "Rentang nilai dari 0 hingga 150 dollar"
+        max_value = 200,
+        help = "Rentang nilai dari 0 hingga 200 dollar (MonthlyCharge)"
     )
 
     OverageFee = st.number_input(
         label = "10.Berapa nilai tagihan terbesar dalam 12 bulan?:",
         min_value = 0,
-        max_value = 150,
-        help = "Rentang nilai dari 0 hingga 150 dollar"
+        max_value = 25,
+        help = "Rentang nilai dari 0 hingga 25 dollar (OverageFee)"
     )
     
     RoamMins = st.number_input(
         label = "11.Berapa rata-rata waktu roaming?:",
         min_value = 0,
-        max_value = 25,
-        help = "Rentang nilai dari 0 hingga 25 dollar"
+        max_value = 30,
+        help = "Rentang nilai dari 0 hingga 30 menit (RoamMins)"
     )
 
 
@@ -117,14 +116,14 @@ with st.form(key = "telecom_data_form"):
 
         # Create loading animation while predicting
         with st.spinner("Sending data to prediction server ..."):
-            res = requests.post("http://api_backend:8080/predict/", json = raw_data).json()
+            res = requests.post("http://localhost:8080/predict/", json = raw_data).json()
 
 
         # Parse the prediction result
         if res["error_msg"] != "":
             st.error("Error Occurs While Predicting: {}".format(res["error_msg"]))
         else:
-            if res["res"] != "Ya":
-                st.warning("Prediksi Churn Customer: Tidak.")
+            if res["res"] != "Tidak":
+                st.warning("Prediksi Churn Customer: Churn")
             else:
-                st.success("Prediksi Churn Customer: Ya.")
+                st.success("Prediksi Churn Customer: Tidak Churn")

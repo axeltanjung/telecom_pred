@@ -28,22 +28,28 @@ def check_data(input_data, params, api = False):
             params["object_columns"], "an error occurs in object column(s)."
         assert input_data.select_dtypes("int").columns.to_list() == \
             params["int32_columns"], "an error occurs in int32 column(s)."
+        assert input_data.select_dtypes("float").columns.to_list() == \
+            params["float64_columns"], "an error occurs in float64 column(s)."
     else:
         # In case checking data from api
         object_columns = params["object_columns"]
-        del object_columns[1:]
+        del object_columns[-1]
 
         # Max column not used as predictor
         int_columns = params["int32_columns"]
-        del int_columns[-1]
+        #del int_columns[0]
+
+        # Max column not used as predictor
+        int_columns = params["float64_columns"]
 
         # Check data types
         assert input_data.select_dtypes("int").columns.to_list() == params["int32_columns"], "an error occurs in int32 column(s)."
         assert input_data.select_dtypes("float").columns.to_list() == params["float64_columns"], "an error occurs in float64 column(s)."
         assert input_data.select_dtypes("object").columns.to_list() == params["object_columns"], "an error occurs in object column(s)."
 
-    assert set(input_data.ContractRenewal).issubset(set(params["range_ContractRenewal"])), "an error occurs in ContractRenewal range."
-    assert set(input_data.Churn).issubset(set(params["range_Churn"])), "an error occurs in Churn range."
+    #assert set(input_data.ContractRenewal).issubset(set(params["range_ContractRenewal"])), "an error occurs in ContractRenewal range."
+    #assert set(input_data.Churn).issubset(set(params["range_Churn"])), "an error occurs in Churn range."
+    assert input_data.ContractRenewal.between(params["range_ContractRenewal"][0], params["range_ContractRenewal"][1]).sum() == len(input_data), "an error occurs in ContractRenewal range."
     assert input_data.ID.between(params["range_ID"][0], params["range_ID"][1]).sum() == len(input_data), "an error occurs in ID range."
     assert input_data.DataPlan.between(params["range_DataPlan"][0], params["range_DataPlan"][1]).sum() == len(input_data), "an error occurs in DataPlan range."
     assert input_data.AccountWeeks.between(params["range_AccountWeeks"][0], params["range_AccountWeeks"][1]).sum() == len(input_data), "an error occurs in AccountWeeks range."
@@ -74,42 +80,42 @@ if __name__ == "__main__":
     )
 
     # 5. Handling AccountWeeks
-    raw_dataset.AccountWeeks = raw_dataset.AccountWeeks.replace("----", -1).astype(int)
+    #raw_dataset.AccountWeeks = raw_dataset.AccountWeeks.replace("----", -1).astype(int)
 
     raw_dataset.AccountWeeks.fillna(-1, inplace = True)
 
     # 5. Handling Data Usage
-    raw_dataset.DataUsage = raw_dataset.DataUsage.replace("----", -1).astype(float)
+    #raw_dataset.DataUsage = raw_dataset.DataUsage.replace("----", -1).astype(float)
 
     raw_dataset.DataUsage.fillna(-1, inplace = True)
 
     # 6. Handling CustServCalls
-    raw_dataset.CustServCalls = raw_dataset.CustServCalls.replace("----", -1).astype(int)
+    #raw_dataset.CustServCalls = raw_dataset.CustServCalls.replace("----", -1).astype(int)
 
     raw_dataset.CustServCalls.fillna(-1, inplace = True)
 
     # 7. Handling DayMins
-    raw_dataset.DayMins = raw_dataset.DayMins.replace("----", -1).astype(float)
+    #raw_dataset.DayMins = raw_dataset.DayMins.replace("----", -1).astype(float)
 
     raw_dataset.DayMins.fillna(-1, inplace = True)
     
     # 8. Handling DayCalls
-    raw_dataset.DayCalls = raw_dataset.DayCalls.replace("----", -1).astype(int)
+    #raw_dataset.DayCalls = raw_dataset.DayCalls.replace("----", -1).astype(int)
 
     raw_dataset.DayCalls.fillna(-1, inplace = True)
 
     # 9. Handling MonthlyCharge
-    raw_dataset.MonthlyCharge = raw_dataset.MonthlyCharge.replace("----", -1).astype(float)
+    #raw_dataset.MonthlyCharge = raw_dataset.MonthlyCharge.replace("----", -1).astype(float)
 
     raw_dataset.MonthlyCharge.fillna(-1, inplace = True)
 
     # 10. Handling OverageFee
-    raw_dataset.OverageFee = raw_dataset.OverageFee.replace("----", -1).astype(float)
+    #raw_dataset.OverageFee = raw_dataset.OverageFee.replace("----", -1).astype(float)
 
     raw_dataset.OverageFee.fillna(-1, inplace = True)
 
     # 11. Handling RoamMins
-    raw_dataset.RoamMins = raw_dataset.RoamMins.replace("----", -1).astype(float)
+    #raw_dataset.RoamMins = raw_dataset.RoamMins.replace("----", -1).astype(float)
     
     raw_dataset.RoamMins.fillna(-1, inplace = True)
 

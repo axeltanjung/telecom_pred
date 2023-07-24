@@ -8,19 +8,19 @@ import data_pipeline as data_pipeline
 import preprocessing as preprocessing
 
 config_data = util.load_config()
-ohe_ContractRenewal = util.pickle_load(config_data["ohe_ContractRenewal_path"])
+#ohe_ContractRenewal = util.pickle_load(config_data["ohe_ContractRenewal_path"])
 le_encoder = util.pickle_load(config_data["le_encoder_path"])
 model_data = util.pickle_load(config_data["production_model_path"])
 
 class api_data(BaseModel):
     ID : int
-    AccountWeeks : int   
-    ContractRenewal : str
+    AccountWeeks : float   
+    ContractRenewal : int
     DataPlan : int
     DataUsage : float
-    CustServCalls : int
+    CustServCalls : float
     DayMins : float
-    DayCalls : int
+    DayCalls : float
     MonthlyCharge : float
     OverageFee : float
     RoamMins : float
@@ -49,9 +49,8 @@ def predict(data: api_data):
     # Convert dtype
     data = pd.concat(
         [
-            data[config_data["predictors"][0]].astype(str),
-            data[config_data["predictors"][1:4]].astype(np.int32),
-            data[config_data["predictors"][5:]].astype(np.float64)
+            data[config_data["predictors"][0:3]].astype(np.int32),
+            data[config_data["predictors"][3:11]].astype(np.float64)
         ],
         axis = 1
     )
@@ -64,20 +63,15 @@ def predict(data: api_data):
         return {"res": [], "error_msg": str(ae)}
     
     # Encoding ContractRenewal
-    data = preprocessing.ohe_transform_ContractRenewal(data, ["ContractRenewal"], ohe_ContractRenewal)
+    #data = preprocessing.ohe_transform_ContractRenewal(data, ["ContractRenewal"], ohe_ContractRenewal)
 
     # Predict data
     y_pred = model_data["model_data"]["model_object"].predict(data)
-    #y_pred = model_data.predict(data)
 
     # Inverse tranform
     y_pred = list(le_encoder.inverse_transform(y_pred))[0]
 
-    #if y_pred[0] == 0:
-    #    y_pred = "Tidak Churn"
-    #else:
-    #    y_pred = "Churn"
-    #return {"res" : y_pred, "error_msg": ""}
+    return {"res" : y_pred, "error_msg": ""}
 
 if __name__ == "__main__":
-    uvicorn.run("api:app", host = "34.212.254.202", port = 8080)
+    uvicorn.run("api:app", host = "127.0.0.1", port = 8080)
