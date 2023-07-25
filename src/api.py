@@ -63,7 +63,7 @@ def predict(data: api_data):
         return {"res": [], "error_msg": str(ae)}
     
     # Encoding ContractRenewal
-    #data = preprocessing.ohe_transform_ContractRenewal(data, ["ContractRenewal"], ohe_ContractRenewal)
+    #data = preprocessing.ohe_transform_ContractRenewal(data, ["ContractRenewal"], ohe_ContractRenewal) test
 
     # Predict data
     y_pred = model_data["model_data"]["model_object"].predict(data)
