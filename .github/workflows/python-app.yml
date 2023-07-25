@@ -64,6 +64,7 @@ jobs:
     - name: Deploy to EC2
       run: |
         ssh deploy_ec2 "mkdir temp/"
+        ssh deploy_ec2 "mkdir ml_process_demo/"
         ssh deploy_ec2 "git clone git@github.com:axeltanjung/telecom_pred.git temp/"
         ssh deploy_ec2 "rsync -a ./temp/ ./ml_process_demo/"
         ssh deploy_ec2 "rm -rf temp/"
