@@ -3,7 +3,7 @@
 
 ## Latar Belakang
 
-Dengan perkembangan telekomunikasi industry yang cepat, service provider semakin menurun akibat ekspansi dari ke arah yang berbasis subscriber. Untuk memenuhi kebutuhan akan perusahaan atas lingkungan yang kompetitif, retensi dari customer eksisting menjadi tantangan yang besar. Hal ini menyatakan bahwa cost untuk mendapatkan customer baru lebih tinggi dibandingkan mempertahankan yang lama. 
+Dengan perkembangan  telekomunikasi industry yang cepat, service provider semakin menurun akibat ekspansi dari ke arah yang berbasis subscriber. Untuk memenuhi kebutuhan akan perusahaan atas lingkungan yang kompetitif, retensi dari customer eksisting menjadi tantangan yang besar. Hal ini menyatakan bahwa cost untuk mendapatkan customer baru lebih tinggi dibandingkan mempertahankan yang lama. 
 
 Maka dari itu, sebuah keniscayaan untuk industri telekomunikasi menggunakan advance analysis untuk memahami perilaku consumer dan hal tersebut dapat memprediksi asosiasi dari customer terhadap apakah customer tersebut akan meninggalkan layanan dari perusahaan. Dengan dilakukannya langkah prediktif tersebut, maka perusahaan telekomunikasi dapat menyusun langkah strategis terhadap segmentasi dari customer sehingga dapat di implementasikan strategi yang mengedepankan solusi terhadap permasalahan customer churn tersebut. 
 
